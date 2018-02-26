@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
@@ -11,7 +11,16 @@
     "debug": "~2.6.9",
     "express": "~4.15.5",
     "jade": "~1.11.0",
+    "mongodb": "^3.0.3",
     "morgan": "~1.9.0",
+    "nodemon": "^1.15.1",
     "serve-favicon": "~2.4.5"
+  },
+  "nodemonConfig":{
+    "env":{
+      "URL":"mongodb://library-database.documents.azure.com:10255/?ssl=true&replicaSet=globaldb",
+      "USER":"library-database",
+      "PASSWORD":"7t7VUc7b8OPfflCB3RTdZnHy3egcb5jExj1w0ozvA1hKJr5WJiwQx3CBRenQRSKPSXN7XtZXfL5ROIeQXK2gqQ=="
+    }
   }
 }
