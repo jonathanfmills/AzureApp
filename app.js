@@ -5,6 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+const appInsights = require('applicationinsights');
+appInsights.setup('1a4a5db6-5d45-4f2e-b046-7cf2f69bafb6')
+appInsights.start();
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 var admin = require('./routes/admin');
