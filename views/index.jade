@@ -1,5 +1,9 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  each book in books
+    div 
+      div
+        img(src="https://librarystorage.blob.core.windows.net/bookcovers/"+ book.bookId + ".jpg")
+      h3= book.title
+      h4= book.author
