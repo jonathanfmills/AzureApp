@@ -20,9 +20,9 @@
   },
   "nodemonConfig": {
     "env": {
-      "URL": "mongodb://library-database.documents.azure.com:10255/?ssl=true&replicaSet=globaldb",
-      "USER": "library-database",
-      "PASSWORD": "7t7VUc7b8OPfflCB3RTdZnHy3egcb5jExj1w0ozvA1hKJr5WJiwQx3CBRenQRSKPSXN7XtZXfL5ROIeQXK2gqQ=="
+      "URL": "mongodb://mongo-content-dev.documents.azure.com:10255/?ssl=true&replicaSet=globaldb",
+      "USER": "mongo-content-dev",
+      "PASSWORD": "tqRmCtw7cp51QuygCWYprFItP3hodf7W2W4IVBrhMHBQN3dtxOYoMgVGW32rlOVjr227GL8rXQ1bqREW0l8tYA=="
     }
   }
 }
