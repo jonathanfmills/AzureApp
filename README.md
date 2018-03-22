@@ -6,9 +6,15 @@
 
 1) Install latest LTS Node JS
 
-2) NPM install
+> node -v
+> 8.10.0
+>
+> npm -v
+> 5.6.0
 
-3) NPM install express -g
+2) npm install
+
+3) npm install express -g
 
 ## RUN Scripts
 
