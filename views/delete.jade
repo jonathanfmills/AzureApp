@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  .outer
+    nav
+      ul
+        li
+          a(href="/")= "home"
+        li
+          a(href="/admin")= "admin"
+        li
+          a(href="/users")= "users"
+        li.active
+          a(href="/del")= "clear items"
+    .top
+    .content
+      p= "collection truncated"

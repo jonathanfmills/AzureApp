@@ -1,9 +1,37 @@
 extends layout
 
 block content
-  each book in books
-    div 
-      div
-        img(src="https://librarystorage.blob.core.windows.net/bookcovers/"+ book.bookId + ".jpg")
-      h3= book.title
-      h4= book.author
+  .outer
+    nav
+      ul
+        li.active
+          a(href="/")= "home"
+        li
+          a(href="/admin")= "admin"
+        li
+          a(href="/users")= "users"
+        li
+          a(href="/del")= "clear items"
+    .top
+      h1= "Book Collection"
+      if (books.length > 0)
+        .content
+          each book in books
+            .item
+              if (book.new)
+                .item-read
+              if (book.bookId && book.hasImage)
+                .image-wrapper
+                  // img(src="https://librarystorage.blob.core.windows.net/bookcovers/"+ book.bookId + ".jpg" alt="image: " + book.bookId + ".jpg")
+                  img(src="/images/"+ book.bookId + ".jpg" alt="image: " + book.bookId + ".jpg")
+              else
+                .image-wrapper.no-image
+                  <p>No image provided</p>
+              .text-wrapper
+                h3= book.title
+                h4= book.author
+                .view-details
+                  a.btn(title="view book " + book.bookId href="/details/" + book.bookId )= "View Details"
+                  a.btn(title="edit book " + book.bookId href="/edit/" + book.bookId )= "Edit"
+      else
+        .empty-list= "no items"

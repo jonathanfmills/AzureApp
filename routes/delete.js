@@ -1,15 +1,13 @@
 var express = require('express')
-var { MongoClient } = require('mongodb')
 var router = express.Router()
+var { MongoClient } = require('mongodb')
 
-// const title = process.env.TITLE;
-
-/* GET home page. */
 router.get('/', function (req, res, next) {
-  const dbName = 'library'
+  /* GET del page. */
   const url = process.env.URL
   const password = process.env.PASSWORD
-  const user = process.env.USER;
+  const user = process.env.USER
+  const dbName = 'library';
 
   (async function mongo () {
     let client
@@ -23,11 +21,11 @@ router.get('/', function (req, res, next) {
       })
 
       const db = client.db(dbName)
-      const books = await db.collection('books').find().toArray()
-      console.log(books)
-      res.render('index', {books})
+      await db.collection('books').deleteMany()
+      console.log('truncated')
+      res.render('delete')
     } catch (err) {
-      console.log(err)
+      res.send(err)
     }
   }())
 })

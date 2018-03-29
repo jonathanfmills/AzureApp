@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  .outer
+    nav
+      ul
+        li
+          a(href="/")= "back"
+    .top
+      h1= "Book Details"
+      if (item.length > 0)
+        .content
+          .item
+            if (item[0].hasImage)
+              .image-wrapper
+                img(src="/images/"+ item[0].bookId + ".jpg" alt="image: " + item[0].bookId + ".jpg")
+            else
+              .image-wrapper.no-image
+                p="No image provided"
+            .text-wrapper
+              ul
+                li= "book ID: " +  item[0].bookId
+                li= "title: " +  item[0].title
+                li= "author: " +  item[0].author
+                li= "new: " +  item[0].new
+      else
+        .empty-list="does not exist"

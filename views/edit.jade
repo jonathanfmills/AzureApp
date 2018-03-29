@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  .outer
+    nav
+      ul
+        li
+          a(href='/') back
+    .top
+      h1 Book Edit Form
+      .content
+        .form-wrapper
+          if (item[0].hasImage)
+            img(src="/images/"+ item[0].bookId + ".jpg" alt="image: " + item[0].bookId + ".jpg")
+          form#form1
+            .field
+              label(for='bookid') Book ID
+              input#bookid(type='text', name='bookid', value= item[0].bookId)
+            .field
+              label(for='title') Title
+              input#title(type='text', name='title', value= item[0].title)
+            .field
+              label(for='author') Author
+              input#author(type='text', name='author', value= item[0].author)
+            .field
+              label(for='new') New Book
+              select#new(name='new')
+                if (item[0].new)
+                  option(value='false') No
+                  option(value='true' , selected='selected') Yes
+                else 
+                  option(value='false', selected='selected') No
+                  option(value='true') Yes
+          button.form-action(type='submit', form='form1', value='Submit') Submit
