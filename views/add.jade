@@ -7,14 +7,17 @@ block content
         li
           a(href='/') back
     .top
-      h1 Book Edit Form
+      h1 Book Add Form
       .content
         .form-wrapper
           script.
             $(function () {
+              var now = new Date()
+              var stamp = now.getTime()
+              $('#bookid').val(stamp)
+              
               $('.form-action').click(function () {
                 var myData = {
-                  query: $('input[name="query"]').val(),
                   bookId: $('input[name="bookid"]').val(),
                   hasImage: $('select[name="hasImage"]').val(),
                   new: $('select[name="new"]').val(),
@@ -24,7 +27,7 @@ block content
                 };
                 $.ajax({
                   type: 'post',
-                  url: '/edit',
+                  url: '/add',
                   dataType: 'json',
                   data: myData,
                   success: function (data) {
@@ -37,26 +40,26 @@ block content
                 })
               })
             })
-          if (item[0].hasImage)
-            img(src="/images/"+ item[0].bookId + ".jpg" alt="image: " + item[0].bookId + ".jpg")
+          if (false)
+            // img(src="/images/"+ item[0].bookId + ".jpg" alt="image: " + item[0].bookId + ".jpg")
           form#form1
-            input(type='hidden', name='query' value= item[0].bookId)
+            input(type='hidden', name='query' value=)
             .field
               label(for='bookid') Book ID
-              input#bookid(type='text', name='bookid', value= item[0].bookId)
+              input#bookid(type='text', name='bookid', disabled='disabled')
             .field
               label(for='title') Title
-              input#title(type='text', name='title', value= item[0].title)
+              input#title(type='text', name='title', value=)
             .field
               label(for='author') Author
-              input#author(type='text', name='author', value= item[0].author)
+              input#author(type='text', name='author', value=)
             .field
               label(for='genre') Genre
-              input#author(type='text', name='genre', value= item[0].genre)
+              input#author(type='text', name='genre', value=)
             .field
               label(for='new') New Book
               select#new(name='new')
-                if (item[0].new)
+                if (true)
                   option(value='false') No
                   option(value='true' , selected='selected') Yes
                 else 
@@ -65,7 +68,7 @@ block content
             .field
               label(for='hasImage') Has an Image
               select#hasImage(name='hasImage')
-                if (item[0].hasImage)
+                if (false)
                   option(value='false') No
                   option(value='true' , selected='selected') Yes
                 else 

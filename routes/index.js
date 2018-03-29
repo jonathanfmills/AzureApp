@@ -24,7 +24,7 @@ router.get('/', function (req, res, next) {
 
       const db = client.db(dbName)
       const books = await db.collection('books').find().toArray()
-      console.log(books)
+      //console.log(books)
       res.render('index', {books})
     } catch (err) {
       console.log(err)
