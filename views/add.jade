@@ -14,17 +14,61 @@ block content
             $(function () {
               var now = new Date()
               var stamp = now.getTime()
+
               $('#bookid').val(stamp)
               
-              $('.form-action').click(function () {
+              $('.go').hide();
+              $('#imageUpload').change(function () {
+                  if ($(this).val() !== '') {
+                      $('.go').show();
+                  } else {
+                      $('.go').hide();
+                  }
+              })
+
+              $('.go').click(function (e) {
+                  e.preventDefault()
+                  var fileData = new FormData()
+                  var myFile = $('#imageUpload')[0].files[0]
+                  var newName = $('#bookid').val()
+
+                  // params: fieldName, file, overrides original filename
+                  fileData.set('item', myFile, newName)
+
+                  $.ajax({
+                    type: 'post',
+                    url: '/upload',
+                    async: false,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    data: fileData,
+                    dataType: 'json',
+                    success: function (data) {
+                       alert(data.success)
+                       $('.go').hide()
+                       $('#imageUpload').val('')
+                       $('#imageName').val(data.body.filename)
+                    },
+                    error: function (err) {
+                      $('.go').hide()
+                      $('#imageUpload').val('')
+                      console.log(err)
+                    }
+                  })
+              })
+
+              $('.form-action').click(function (e) {
+                e.preventDefault()
                 var myData = {
                   bookId: $('input[name="bookid"]').val(),
-                  hasImage: $('select[name="hasImage"]').val(),
+                  imageName: $('input[name="imageName"]').val(),
                   new: $('select[name="new"]').val(),
                   title: $('input[name="title"]').val(),
                   genre: $('input[name="genre"]').val(),
                   author: $('input[name="author"]').val()
                 };
+
                 $.ajax({
                   type: 'post',
                   url: '/add',
@@ -40,13 +84,18 @@ block content
                 })
               })
             })
-          if (false)
-            // img(src="/images/"+ item[0].bookId + ".jpg" alt="image: " + item[0].bookId + ".jpg")
           form#form1
             input(type='hidden', name='query' value=)
             .field
               label(for='bookid') Book ID
               input#bookid(type='text', name='bookid', disabled='disabled')
+            .field
+              label(for='imageUpload') Image Upload
+              input#imageUpload(type='file' style='width: 300px')
+              button.go='upload'
+            .field
+              label(for='imageName') Image Name
+              input#imageName(name='imageName' disabled='disabled' value=)
             .field
               label(for='title') Title
               input#title(type='text', name='title', value=)
@@ -65,13 +114,4 @@ block content
                 else 
                   option(value='false', selected='selected') No
                   option(value='true') Yes
-            .field
-              label(for='hasImage') Has an Image
-              select#hasImage(name='hasImage')
-                if (false)
-                  option(value='false') No
-                  option(value='true' , selected='selected') Yes
-                else 
-                  option(value='false', selected='selected') No
-                  option(value='true') Yes
-          button.form-action Submit
+            button.form-action Submit

@@ -11,9 +11,9 @@ block content
       if (item.length > 0)
         .content
           .item
-            if (item[0].hasImage)
+            if (item[0].imageName !== "")
               .image-wrapper
-                img(src="/images/"+ item[0].bookId + ".jpg" alt="image: " + item[0].bookId + ".jpg")
+                img(src="/images/"+ item[0].imageName alt="image: " + item[0].imageName)
             else
               .image-wrapper.no-image
                 p="No image provided"

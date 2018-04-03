@@ -12,38 +12,87 @@ block content
         .form-wrapper
           script.
             $(function () {
-              $('.form-action').click(function () {
-                var myData = {
-                  query: $('input[name="query"]').val(),
-                  bookId: $('input[name="bookid"]').val(),
-                  hasImage: $('select[name="hasImage"]').val(),
-                  new: $('select[name="new"]').val(),
-                  title: $('input[name="title"]').val(),
-                  genre: $('input[name="genre"]').val(),
-                  author: $('input[name="author"]').val()
-                };
-                $.ajax({
-                  type: 'post',
-                  url: '/edit',
-                  dataType: 'json',
-                  data: myData,
-                  success: function (data) {
-                    alert(data.success)
-                    window.location.href = '/'
-                  },
-                  error: function (err) {
-                    console.log(err)
+              $('.go').hide();
+              $('#imageUpload').change(function () {
+                  if ($(this).val() !== '') {
+                      $('.go').show();
+                  } else {
+                      $('.go').hide();
                   }
+              })
+
+              $('.go').click(function (e) {
+                  e.preventDefault()
+                  var fileData = new FormData()
+                  var myFile = $('#imageUpload')[0].files[0]
+                  var newName = $('#bookid').val()
+
+                  // params fieldName, file, override originalname
+                  fileData.set('item', myFile, newName)
+
+                  $.ajax({
+                    type: 'post',
+                    url: '/upload',
+                    async: false,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    data: fileData,
+                    dataType: 'json',
+                    success: function (data) {
+                       alert(data.success)
+                       $('.go').hide()
+                       $('#imageUpload').val('')
+                       $('#imageName').val(data.body.filename)
+                    },
+                    error: function (err) {
+                      $('.go').hide()
+                      $('#imageUpload').val('')
+                      console.log(err)
+                    }
+                  })
+                })
+
+                $('.form-action').click(function () {
+                  var myData = {
+                    query: $('input[name="query"]').val(),
+                    bookId: $('input[name="bookid"]').val(),
+                    imageName: $('input[name="imageName"]').val(),
+                    new: $('select[name="new"]').val(),
+                    title: $('input[name="title"]').val(),
+                    genre: $('input[name="genre"]').val(),
+                    author: $('input[name="author"]').val()
+                  }
+
+                  $.ajax({
+                    type: 'post',
+                    url: '/edit',
+                    dataType: 'json',
+                    data: myData,
+                    success: function (data) {
+                      alert(data.success)
+                      window.location.href = '/'
+                    },
+                    error: function (err) {
+                      console.log(err)
+                    }
+                  })
                 })
               })
-            })
-          if (item[0].hasImage)
-            img(src="/images/"+ item[0].bookId + ".jpg" alt="image: " + item[0].bookId + ".jpg")
+          if (item[0].imageName !== "")
+            img(alt="image: " + item[0].imageName src="/images/"+ item[0].imageName)
           form#form1
             input(type='hidden', name='query' value= item[0].bookId)
             .field
               label(for='bookid') Book ID
               input#bookid(type='text', name='bookid', value= item[0].bookId)
+            .field
+              label(for='imageUpload') Image Upload
+              input#imageUpload(type='file' style='width: 300px')
+              button.go='upload'
+            .field
+              label(for='imageName') Image Name
+              input#imageName(name='imageName' disabled='disabled' value=item[0].imageName)
             .field
               label(for='title') Title
               input#title(type='text', name='title', value= item[0].title)
@@ -57,15 +106,6 @@ block content
               label(for='new') New Book
               select#new(name='new')
                 if (item[0].new)
-                  option(value='false') No
-                  option(value='true' , selected='selected') Yes
-                else 
-                  option(value='false', selected='selected') No
-                  option(value='true') Yes
-            .field
-              label(for='hasImage') Has an Image
-              select#hasImage(name='hasImage')
-                if (item[0].hasImage)
                   option(value='false') No
                   option(value='true' , selected='selected') Yes
                 else 

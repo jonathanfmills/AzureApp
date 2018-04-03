@@ -10,7 +10,7 @@ const BOOK_LIST = [
     author: 'Lev Nikolayevich Tolstoy',
     bookId: 656,
     new: false,
-    hasImage: true
+    imageName: '656.jpg'
   },
   {
     title: 'Les Misérables',
@@ -18,7 +18,7 @@ const BOOK_LIST = [
     author: 'Victor Hugo',
     bookId: 24280,
     new: true,
-    hasImage: true
+    imageName: '24280.jpg'
   },
   {
     title: 'The Time Machine',
@@ -26,7 +26,7 @@ const BOOK_LIST = [
     author: 'H. G. Wells',
     bookId: 777,
     new: false,
-    hasImage: false
+    imageName: ''
   },
   {
     title: 'A Journey into the Center of the Earth',
@@ -34,7 +34,7 @@ const BOOK_LIST = [
     author: 'Jules Verne',
     bookId: 778,
     new: false,
-    hasImage: false
+    imageName: ''
   },
   {
     title: 'The Dark World',
@@ -42,7 +42,7 @@ const BOOK_LIST = [
     author: 'Henry Kuttner',
     bookId: 779,
     new: false,
-    hasImage: false
+    imageName: ''
   },
   {
     title: 'The Wind in the Willows',
@@ -50,7 +50,7 @@ const BOOK_LIST = [
     author: 'Kenneth Grahame',
     bookId: 780,
     new: false,
-    hasImage: false
+    imageName: ''
   },
   {
     title: 'Life On The Mississippi',
@@ -58,7 +58,7 @@ const BOOK_LIST = [
     author: 'Mark Twain',
     bookId: 781,
     new: false,
-    hasImage: false
+    imageName: ''
   },
   {
     title: 'Childhood',
@@ -66,7 +66,7 @@ const BOOK_LIST = [
     author: 'Lev Nikolayevich Tolstoy',
     bookId: 782,
     new: false,
-    hasImage: false
+    imageName: ''
   }]
 
 /* GET home page. */

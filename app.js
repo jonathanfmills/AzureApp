@@ -1,4 +1,18 @@
 var express = require('express')
+var multer  = require('multer')
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/images')
+  },
+  filename: function (req, file, cb) {
+    let imgType = file.mimetype.replace('image/', '.')
+    console.log(file)
+    //cb(null, file.fieldname + '-' + Date.now())
+    cb(null, file.originalname + imgType)
+  }
+})
+
+var upload = multer({ storage: storage })
 var path = require('path')
 // var favicon = require('serve-favicon')
 var logger = require('morgan')
@@ -35,6 +49,20 @@ app.use('/admin', admin)
 app.use('/detail', detail)
 app.use('/add', add)
 app.use('/del', del)
+
+// upload an image
+app.post('/upload', upload.single('item'), function (req, res) {
+  let response = {
+    status: 200,
+    success: 'Image Uploaded',
+    body: req.file
+  }
+  // req.file is the `avatar` file
+  // console.log(req.file)
+  // req.body will hold the text fields, if there were any
+  res.setHeader('Content-Type', 'text/plain')
+  res.end(JSON.stringify(response), null, 2)
+})
 
 // remove one record
 app.post('/del/:bookId', function (req, res) {
@@ -97,7 +125,7 @@ app.post('/add', function (req, res) {
       const db = client.db(dbName)
       const newValues = {
         'bookId': parseFloat(req.body.bookId),
-        'hasImage': req.body.hasImage === 'true' ? true : false,
+        'imageName': req.body.imageName,
         'new': req.body.new === 'true' ? true : false,
         'title': req.body.title,
         'author': req.body.author,
