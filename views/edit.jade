@@ -85,7 +85,7 @@ block content
             input(type='hidden', name='query' value= item[0].bookId)
             .field
               label(for='bookid') Book ID
-              input#bookid(type='text', name='bookid', value= item[0].bookId)
+              input#bookid(type='text', name='bookid', value= item[0].bookId disabled="disabled")
             .field
               label(for='imageUpload') Image Upload
               input#imageUpload(type='file' style='width: 300px')
