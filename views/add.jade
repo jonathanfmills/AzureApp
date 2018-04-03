@@ -1,0 +1,117 @@
+extends layout
+
+block content
+  .outer
+    nav
+      ul
+        li
+          a(href='/') back
+    .top
+      h1 Book Add Form
+      .content
+        .form-wrapper
+          script.
+            $(function () {
+              var now = new Date()
+              var stamp = now.getTime()
+
+              $('#bookid').val(stamp)
+              
+              $('.go').hide();
+              $('#imageUpload').change(function () {
+                  if ($(this).val() !== '') {
+                      $('.go').show();
+                  } else {
+                      $('.go').hide();
+                  }
+              })
+
+              $('.go').click(function (e) {
+                  e.preventDefault()
+                  var fileData = new FormData()
+                  var myFile = $('#imageUpload')[0].files[0]
+                  var newName = $('#bookid').val()
+
+                  // params: fieldName, file, overrides original filename
+                  fileData.set('item', myFile, newName)
+
+                  $.ajax({
+                    type: 'post',
+                    url: '/upload',
+                    async: false,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    data: fileData,
+                    dataType: 'json',
+                    success: function (data) {
+                       alert(data.success)
+                       $('.go').hide()
+                       $('#imageUpload').val('')
+                       $('#imageName').val(data.body.filename)
+                    },
+                    error: function (err) {
+                      $('.go').hide()
+                      $('#imageUpload').val('')
+                      console.log(err)
+                    }
+                  })
+              })
+
+              $('.form-action').click(function (e) {
+                e.preventDefault()
+                var myData = {
+                  bookId: $('input[name="bookid"]').val(),
+                  imageName: $('input[name="imageName"]').val(),
+                  new: $('select[name="new"]').val(),
+                  title: $('input[name="title"]').val(),
+                  genre: $('input[name="genre"]').val(),
+                  author: $('input[name="author"]').val()
+                };
+
+                $.ajax({
+                  type: 'post',
+                  url: '/add',
+                  dataType: 'json',
+                  data: myData,
+                  success: function (data) {
+                    alert(data.success)
+                    window.location.href = '/'
+                  },
+                  error: function (err) {
+                    console.log(err)
+                  }
+                })
+              })
+            })
+          form#form1
+            input(type='hidden', name='query' value=)
+            .field
+              label(for='bookid') Book ID
+              input#bookid(type='text', name='bookid', disabled='disabled')
+            .field
+              label(for='imageUpload') Image Upload
+              input#imageUpload(type='file' style='width: 300px')
+              button.go='upload'
+            .field
+              label(for='imageName') Image Name
+              input#imageName(name='imageName' disabled='disabled' value=)
+            .field
+              label(for='title') Title
+              input#title(type='text', name='title', value=)
+            .field
+              label(for='author') Author
+              input#author(type='text', name='author', value=)
+            .field
+              label(for='genre') Genre
+              input#author(type='text', name='genre', value=)
+            .field
+              label(for='new') New Book
+              select#new(name='new')
+                if (true)
+                  option(value='false') No
+                  option(value='true' , selected='selected') Yes
+                else 
+                  option(value='false', selected='selected') No
+                  option(value='true') Yes
+            button.form-action Submit

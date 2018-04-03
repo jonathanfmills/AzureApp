@@ -1,9 +1,62 @@
 extends layout
 
 block content
-  each book in books
-    div 
-      div
-        img(src="https://librarystorage.blob.core.windows.net/bookcovers/"+ book.bookId + ".jpg")
-      h3= book.title
-      h4= book.author
+  script.
+    $(function () {
+      $('.remove-action').click(function () {
+         var myData = {
+           bookId: $(this).attr('data')
+         }
+         $.ajax({
+           type: 'post',
+           url: '/del/' + myData.bookId,
+           dataType: 'json',
+           data: myData,
+           success: function (data) {
+             alert(data.success)
+             window.location.href = '/'
+           },
+           error: function (err) {
+             console.log(err)
+           }
+         })
+         return false;
+      })
+    })
+  .outer
+    nav
+      ul
+        li.active
+          a(href="/")= "home"
+        li
+          a(href="/admin")= "admin"
+        li
+          a(href="/users")= "users"
+        li
+          a(href="/del")= "clear all"
+        li
+          a(href="/add")= "add new"
+    .top
+      h1= "Book Collection"
+      if (books.length > 0)
+        .content
+          each book in books
+            .item
+              if (book.new)
+                .item-read
+              if (book.bookId && book.imageName !== "")
+                .image-wrapper
+                  // img(src="https://librarystorage.blob.core.windows.net/bookcovers/"+ book.bookId + ".jpg" alt="image: " + book.bookId + ".jpg")
+                  img(alt="image: " + book.imageName src="/images/" + book.imageName )
+              else
+                .image-wrapper.no-image
+                  <p>No image provided</p>
+              .text-wrapper
+                h3= book.title
+                h4= book.author
+                .view-details
+                  a.btn(title="view book " + book.bookId href="/details/" + book.bookId )= "View Details"
+                  a.btn(title="edit book " + book.bookId href="/edit/" + book.bookId )= "Edit"
+                  a.btn.remove-action(data= book.bookId title="remove book " + book.bookId href="/del/" + book.bookId )= "Remove"
+      else
+        .empty-list= "no items"
