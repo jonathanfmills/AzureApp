@@ -170,7 +170,7 @@ app.post('/edit', function (req, res) {
       const newValues = {
         $set: {
           'bookId': parseFloat(req.body.bookId),
-          'hasImage': req.body.hasImage === 'true' ? true : false,
+          'imageName': req.body.imageName,
           'new': req.body.new === 'true' ? true : false,
           'title': req.body.title,
           'author': req.body.author,
